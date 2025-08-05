@@ -34,7 +34,43 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final MapList _todoList = [];
+  final _todoController = TextEditingController();
+
+  MapList _todoList = [];
+  DynamicMap _lastRemoved = {};
+  int _lastRemovedIndex = -1;
+
+  @override
+  void initState() {
+    super.initState();
+    _readData().then((data) {
+      setState(() => _todoList = data);
+    });
+  }
+
+  void _addTask() {
+    setState(() {
+      DynamicMap newTask = {};
+      newTask["title"] = _todoController.text;
+      newTask["done"] = false;
+      _todoController.text = "";
+      _todoList.add(newTask);
+      _saveData();
+    });
+  }
+
+  Future<void> _refresh() async {
+    await Future.delayed(Duration(milliseconds: 400));
+    setState(() {
+      _todoList.sort((a, b) {
+        if (a["done"] && !b["done"]) return 1;
+        if (!a["done"] && b["done"]) return -1;
+        return 0;
+      });
+
+      _saveData();
+    });
+  }
 
   Future<File> _getFile() async {
     final directory = await getApplicationDocumentsDirectory();
@@ -61,7 +97,10 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Lista de tarefas'),
+        title: const Text(
+          'Lista de tarefas',
+          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+        ),
         backgroundColor: Colors.blueAccent,
         centerTitle: true,
       ),
@@ -73,6 +112,7 @@ class _HomePageState extends State<HomePage> {
               children: [
                 Expanded(
                   child: TextField(
+                    controller: _todoController,
                     decoration: InputDecoration(
                       labelText: "Nova tarefa",
                       labelStyle: TextStyle(color: Colors.blueAccent),
@@ -89,7 +129,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ),
                   ),
-                  onPressed: () {},
+                  onPressed: _addTask,
                   child: Text(
                     "Nova",
                     style: TextStyle(
@@ -103,25 +143,83 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
           Expanded(
-            child: ListView.builder(
-              padding: EdgeInsets.only(top: 10),
-              itemCount: _todoList.length,
-              itemBuilder: (context, index) {
-                DynamicMap item = _todoList[index];
-                return CheckboxListTile(
-                  title: Text(item["title"]),
-                  value: item["done"],
-                  secondary: CircleAvatar(
-                    child: Icon(item["done"] ? Icons.check : Icons.error),
-                  ),
-                  onChanged: (value) => setState(() {
-                    item["done"] = value;
-                  }),
-                );
-              },
+            child: RefreshIndicator(
+              onRefresh: _refresh,
+              child: ListView.builder(
+                padding: EdgeInsets.only(top: 10),
+                itemCount: _todoList.length,
+                itemBuilder: buildItem,
+              ),
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget buildItem(BuildContext context, int index) {
+    DynamicMap item = _todoList[index];
+    return Dismissible(
+      key: Key(DateTime.now().millisecondsSinceEpoch.toString()),
+      direction: DismissDirection.startToEnd,
+      background: Container(
+        color: Colors.red,
+        child: Align(
+          alignment: Alignment(-0.9, 0.0),
+          child: Icon(Icons.delete, color: Colors.white),
+        ),
+      ),
+      onDismissed: (direction) {
+        setState(() {
+          _lastRemoved = DynamicMap.from(_todoList[index]);
+          _lastRemovedIndex = index;
+          _todoList.removeAt(index);
+          _saveData();
+
+          final snackBar = SnackBar(
+            content: Text('Tarefa "${_lastRemoved["title"]}" removida!'),
+            duration: Duration(seconds: 4),
+            action: SnackBarAction(
+              label: "Desfazer",
+
+              onPressed: () {
+                setState(() {
+                  _todoList.insert(_lastRemovedIndex, _lastRemoved);
+                  _saveData();
+                });
+              },
+            ),
+          );
+
+          ScaffoldMessenger.of(context).removeCurrentSnackBar();
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        });
+      },
+      child: Container(
+        margin: EdgeInsets.only(bottom: 5),
+        decoration: BoxDecoration(borderRadius: BorderRadius.circular(8)),
+        child: CheckboxListTile(
+          activeColor: Colors.blueAccent,
+          title: Text(
+            item["title"],
+            style: TextStyle(overflow: TextOverflow.ellipsis),
+          ),
+          tileColor: Colors.grey[200],
+          value: item["done"],
+          secondary: CircleAvatar(
+            backgroundColor: !item["done"]
+                ? Colors.orangeAccent
+                : Colors.blueAccent,
+            child: Icon(
+              item["done"] ? Icons.check : Icons.error,
+              color: Colors.white,
+            ),
+          ),
+          onChanged: (value) => setState(() {
+            item["done"] = value;
+            _saveData();
+          }),
+        ),
       ),
     );
   }
