@@ -205,7 +205,7 @@ Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para ma
 
 ## 👨‍💻 Autor
 
-**Seu Nome**
+**João Lucas Borges Ribeiro**
 
 - GitHub: [@joaolucas2012](https://github.com/joaolucas2012)
 - LinkedIn: [João Lucas Borges Ribeiro](https://www.linkedin.com/in/jo%C3%A3o-lucas-ribeiro)
