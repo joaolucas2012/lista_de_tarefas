@@ -29,7 +29,9 @@ lib/
 ├── 📁 repositories/    # Acesso a dados e persistência
 ├── 📁 widgets/         # Componentes reutilizáveis
 ├── 📁 config/          # Configurações e constantes
-└── 📁 utils/           # Utilitários e helpers
+├── 📁 shared/          # Recursos compartilhados
+│   └── 📁 utils/       # Utilitários e helpers
+└── main.dart           # Ponto de entrada da aplicação
 ```
 
 ### 🎯 Padrões Implementados
@@ -106,24 +108,25 @@ flutter run
 
 ```
 lib/
-├── models/
+├── 📁 models/                    # Entidades e modelos de dados
 │   └── task.dart                 # Modelo de dados da tarefa
-├── views/
+├── 📁 views/                     # Interface do usuário (UI)
 │   └── home_page.dart            # Tela principal da aplicação
-├── controllers/
+├── 📁 controllers/               # Lógica de controle e gerenciamento de estado
 │   └── task_controller.dart      # Controlador principal
-├── services/
+├── 📁 services/                  # Lógica de negócio
 │   └── task_service.dart         # Serviços de negócio
-├── repositories/
+├── 📁 repositories/              # Acesso a dados e persistência
 │   └── task_repository.dart      # Repositório de dados
-├── widgets/
+├── 📁 widgets/                   # Componentes reutilizáveis
 │   ├── add_task_widget.dart      # Widget para adicionar tarefas
 │   ├── task_list_item.dart       # Item da lista de tarefas
 │   └── task_stats_widget.dart    # Widget de estatísticas
-├── config/
+├── 📁 config/                    # Configurações e constantes
 │   └── app_config.dart           # Configurações centralizadas
-├── utils/
-│   └── date_formatter.dart       # Utilitários de formatação
+├── 📁 shared/                    # Recursos compartilhados
+│   └── 📁 utils/                 # Utilitários e helpers
+│       └── date_formatter.dart   # Utilitários de formatação de data
 └── main.dart                     # Ponto de entrada da aplicação
 ```
 
