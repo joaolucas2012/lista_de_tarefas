@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:lista_de_tarefas/controllers/task_controller.dart';
+import 'package:lista_de_tarefas/views/home_page.dart';
 import 'package:provider/provider.dart';
-import 'controllers/task_controller.dart';
-import 'views/home_page.dart';
 
 void main() {
   runApp(const MyApp());

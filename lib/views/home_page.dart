@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:lista_de_tarefas/config/app_config.dart';
+import 'package:lista_de_tarefas/models/task.dart';
+import 'package:lista_de_tarefas/widgets/add_task_widget.dart';
+import 'package:lista_de_tarefas/widgets/task_list_item.dart';
+import 'package:lista_de_tarefas/widgets/task_stats_widget.dart';
 import 'package:provider/provider.dart';
 import '../controllers/task_controller.dart';
-import '../widgets/add_task_widget.dart';
-import '../widgets/task_list_item.dart';
-import '../widgets/task_stats_widget.dart';
-import '../config/app_config.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -124,7 +125,10 @@ class _HomePageState extends State<HomePage> {
           return TaskListItem(
             task: task,
             onToggle: () => controller.toggleTaskCompletion(task.id),
-            onDelete: () => _showDeleteConfirmation(context, controller, task),
+            onDelete: () => controller.deleteTask(task.id),
+            onShowDeleteConfirmation: () {
+              _showDeleteConfirmation(context, controller, task);
+            },
           );
         },
       ),
@@ -159,7 +163,7 @@ class _HomePageState extends State<HomePage> {
   void _showDeleteConfirmation(
     BuildContext context,
     TaskController controller,
-    dynamic task,
+    Task task,
   ) {
     showDialog(
       context: context,
@@ -176,8 +180,8 @@ class _HomePageState extends State<HomePage> {
             ),
             TextButton(
               onPressed: () {
-                Navigator.of(context).pop();
                 controller.deleteTask(task.id);
+                Navigator.of(context).pop();
                 _showSnackBar(context, AppConfig.taskDeletedMessage);
               },
               style: TextButton.styleFrom(foregroundColor: Colors.red),

@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
-import '../models/task.dart';
-import '../services/task_service.dart';
-import '../config/app_config.dart';
+import 'package:lista_de_tarefas/config/app_config.dart';
+import 'package:lista_de_tarefas/models/task.dart';
+import 'package:lista_de_tarefas/services/task_service.dart';
 
 class TaskController extends ChangeNotifier {
   final ITaskService _taskService;

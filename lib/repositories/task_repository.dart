@@ -1,7 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
+
+import 'package:lista_de_tarefas/models/task.dart';
 import 'package:path_provider/path_provider.dart';
-import '../models/task.dart';
 
 abstract class ITaskRepository {
   Future<List<Task>> getAllTasks();

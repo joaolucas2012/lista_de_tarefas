@@ -1,4 +1,4 @@
-import '../config/app_config.dart';
+import 'package:lista_de_tarefas/config/app_config.dart';
 
 class DateFormatter {
   static String formatRelativeDate(DateTime date) {

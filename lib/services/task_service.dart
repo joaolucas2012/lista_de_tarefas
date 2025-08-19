@@ -1,6 +1,6 @@
-import '../models/task.dart';
-import '../repositories/task_repository.dart';
-import '../config/app_config.dart';
+import 'package:lista_de_tarefas/config/app_config.dart';
+import 'package:lista_de_tarefas/models/task.dart';
+import 'package:lista_de_tarefas/repositories/task_repository.dart';
 
 abstract class ITaskService {
   Future<List<Task>> getAllTasks();

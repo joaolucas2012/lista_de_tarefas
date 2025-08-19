@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../config/app_config.dart';
+import 'package:lista_de_tarefas/config/app_config.dart';
 
 class AddTaskWidget extends StatefulWidget {
   final Function(String) onAddTask;
