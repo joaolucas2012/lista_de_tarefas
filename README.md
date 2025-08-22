@@ -106,6 +106,8 @@ flutter run
 
 ## 📁 Estrutura do Projeto
 
+### 🗂️ Estrutura Principal (lib/)
+
 ```
 lib/
 ├── 📁 models/                    # Entidades e modelos de dados
@@ -128,6 +130,36 @@ lib/
 │   └── 📁 utils/                 # Utilitários e helpers
 │       └── date_formatter.dart   # Utilitários de formatação de data
 └── main.dart                     # Ponto de entrada da aplicação
+```
+
+### 🎨 Estrutura de Assets
+
+```
+assets/
+├── 📁 icons/                     # Ícones do aplicativo
+│   └── icon.png                  # Ícone principal (usado pelo flutter_launcher_icons)
+└── logo.svg                      # Logo original do projeto
+```
+
+### 📱 Estrutura de Plataformas
+
+```
+├── 📁 android/                   # Configurações específicas do Android
+├── 📁 ios/                       # Configurações específicas do iOS
+├── 📁 web/                       # Configurações específicas da Web
+├── 📁 windows/                   # Configurações específicas do Windows
+├── 📁 macos/                     # Configurações específicas do macOS
+└── 📁 linux/                     # Configurações específicas do Linux
+```
+
+### 🔧 Arquivos de Configuração
+
+```
+├── pubspec.yaml                  # Dependências e configurações do projeto
+├── pubspec.lock                  # Versões fixas das dependências
+├── analysis_options.yaml         # Configurações do linter Dart
+├── .gitignore                    # Arquivos ignorados pelo Git
+└── README.md                     # Documentação do projeto
 ```
 
 ## 🎨 Design System
@@ -161,6 +193,36 @@ Os dados são armazenados localmente usando:
 - **Path Provider**: Para acesso ao diretório de documentos
 - **JSON**: Formato de armazenamento
 - **Async/Await**: Operações assíncronas
+
+### 🎨 Configuração de Ícones
+
+O aplicativo utiliza o pacote `flutter_launcher_icons` para gerar automaticamente ícones para todas as plataformas:
+
+```yaml
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/icons/icon.png"
+  min_sdk_android: 21
+  web:
+    generate: true
+    image_path: "assets/icons/icon.png"
+    background_color: "#ffffff"
+    theme_color: "#000000"
+  windows:
+    generate: true
+    image_path: "assets/icons/icon.png"
+    icon_size: 48
+  macos:
+    generate: true
+    image_path: "assets/icons/icon.png"
+```
+
+**Para regenerar os ícones:**
+
+```bash
+dart run flutter_launcher_icons
+```
 
 ## 🧪 Testes
 
